@@ -1,0 +1,25 @@
+﻿@page
+@model CartoonFilm_TranThienLoc.Pages.Login.IndexModel
+@{
+}
+
+<div class="d-flex justify-content-center">
+    <div>
+        <div class="h1">LOGIN</div>
+        <form method="post">
+            <div class="mb-1" >
+                <label class="d-block">Email: </label>
+                <input required asp-for="Account.Email" type="email" />
+            </div>
+            <div class="mb-1">
+                <label class="d-block">Password: </label>
+                <input required asp-for="Account.Password" type="password" />
+            </div>
+            <input type="submit" class="btn btn-danger" />
+        </form>
+        @if (Model.ErrorString != "")
+        {
+            <div class="text-danger">@Model.ErrorString</div>
+        }
+    </div>
+</div>

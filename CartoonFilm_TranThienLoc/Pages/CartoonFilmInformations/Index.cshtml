@@ -1,0 +1,83 @@
+﻿@page
+@model CartoonFilm_TranThienLoc.Pages.CartoonFilmInformations.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="row d-flex justify-content-between align-items-center">
+    <h1 class="col-7">Index</h1>
+    <div class="col-5">
+        <form class="d-flex justify-content-around">
+            <input type="number" name="searchDurationValue" value="@Request.Query["searchDurationValue"]" placeholder="Search by duration..." />
+            <input type="number" name="searchReleaseYearValue" value="@Request.Query["searchReleaseYearValue"]" placeholder="Search by release year..." />
+            <input type="submit" class="btn-success" value="Search"/>
+        </form>
+    </div>
+</div>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CartoonFilmInformation[0].CartoonFilmName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CartoonFilmInformation[0].CartoonFilmDescription)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CartoonFilmInformation[0].Duration)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CartoonFilmInformation[0].ReleaseYear)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CartoonFilmInformation[0].CreatedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CartoonFilmInformation[0].Producer.ProducerName)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.CartoonFilmInformation)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CartoonFilmName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CartoonFilmDescription)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Duration)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReleaseYear)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Producer.ProducerName)
+                </td>
+                <td>
+                    <a asp-page="./Edit" asp-route-id="@item.CartoonFilmId">Edit</a> |
+                    <a asp-page="./Details" asp-route-id="@item.CartoonFilmId">Details</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.CartoonFilmId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+@{
+    <span>Page:</span>
+    for (int i = 1; i <= Model.NumPage; ++i)
+    {
+        <a asp-page="./Index" asp-route-pageIndex="@i">@i</a>
+    }
+}
