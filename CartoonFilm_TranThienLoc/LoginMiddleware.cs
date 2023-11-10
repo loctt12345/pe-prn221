@@ -16,7 +16,7 @@ namespace CartoonFilm_TranThienLoc
         public async Task Invoke(HttpContext httpContext)
         {
             var url = httpContext.Request.GetEncodedUrl().ToLower();
-            if (!url.Contains("login"))
+            if (!url.Contains("login") && !url.Contains("logout"))
             {
                 var userString = httpContext.Session.GetString("ACCOUNT");
                 if (userString != null)

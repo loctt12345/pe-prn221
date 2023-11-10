@@ -9,10 +9,10 @@
 
 <h4>CartoonFilmInformation</h4>
 <hr />
-@if (Model.ErrorString != "")
+@* @if (Model.ErrorString != "")
 {
     <span class="text text-danger">@Model.ErrorString</span>
-}
+} *@
 <div class="row">
     <div class="col-md-4">
         <form method="post">
@@ -41,11 +41,6 @@
                 <label asp-for="CartoonFilmInformation.ReleaseYear" class="control-label"></label>
                 <input required asp-for="CartoonFilmInformation.ReleaseYear" class="form-control" />
                 <span asp-validation-for="CartoonFilmInformation.ReleaseYear" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CartoonFilmInformation.CreatedDate" class="control-label"></label>
-                <input required asp-for="CartoonFilmInformation.CreatedDate" class="form-control" />
-                <span asp-validation-for="CartoonFilmInformation.CreatedDate" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="CartoonFilmInformation.Producer.ProducerName" class="control-label"></label>

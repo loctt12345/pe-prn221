@@ -30,17 +30,17 @@ namespace CartoonFilm_TranThienLoc.Pages.CartoonFilmInformations
             {
                 return NotFound();
             }
-            if (error != null)
-            {
-                if (error == 1)
-                {
-                    ErrorString = "Id is existed!!!";
-                }
-                if (error == 2)
-                {
-                    ErrorString = "Each word of name must begin with the capital letter";
-                }
-            }
+            //if (error != null)
+            //{
+            //    if (error == 1)
+            //    {
+            //        ErrorString = "Id is existed!!!";
+            //    }
+            //    if (error == 2)
+            //    {
+            //        ErrorString = "Each word of name must begin with the capital letter";
+            //    }
+            //}
 
             var cartoonfilminformation = _cartoonFilmInformationRepository.Get((int) id);
             if (cartoonfilminformation == null)
@@ -56,6 +56,17 @@ namespace CartoonFilm_TranThienLoc.Pages.CartoonFilmInformations
         // For more details, see https://aka.ms/RazorPagesCRUD.
         public IActionResult OnPost()
         {
+            string name = CartoonFilmInformation.CartoonFilmName;
+            string[] words = name.Split(' ');
+            for (int i = 0; i < words.Length; ++i)
+            {
+                if (!Char.IsLetter(words[i][0]) || Char.IsLower(words[i][0]))
+                {
+                    ModelState.AddModelError("CartoonFilmInformation.CartoonFilmName", "Each word of name must begin with the capital letter");
+                    //return RedirectToPage("./Edit", new { error = 2 });
+                }
+            }
+
             if (!ModelState.IsValid)
             {
                 return Page();
@@ -64,15 +75,6 @@ namespace CartoonFilm_TranThienLoc.Pages.CartoonFilmInformations
             try
             {
                 _cartoonFilmInformationRepository.Update(CartoonFilmInformation);
-                string name = CartoonFilmInformation.CartoonFilmName;
-                string[] words = name.Split(' ');
-                for (int i = 0; i < words.Length; ++i)
-                {
-                    if (!Char.IsLetter(words[i][0]) || Char.IsLower(words[i][0]))
-                    {
-                        return RedirectToPage("./Edit", new { error = 2 });
-                    }
-                }
             }
             catch (DbUpdateConcurrencyException)
             {

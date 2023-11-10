@@ -6,10 +6,11 @@
 }
 
 <div class="row d-flex justify-content-between align-items-center">
-    <h1 class="col-7">Index</h1>
-    <div class="col-5">
+    <h1 class="col-6">Index</h1>
+    <div class="col-6">
         <form class="d-flex justify-content-around">
             <input type="number" name="searchDurationValue" value="@Request.Query["searchDurationValue"]" placeholder="Search by duration..." />
+            <span>OR</span>
             <input type="number" name="searchReleaseYearValue" value="@Request.Query["searchReleaseYearValue"]" placeholder="Search by release year..." />
             <input type="submit" class="btn-success" value="Search"/>
         </form>
@@ -78,6 +79,9 @@
     <span>Page:</span>
     for (int i = 1; i <= Model.NumPage; ++i)
     {
-        <a asp-page="./Index" asp-route-pageIndex="@i">@i</a>
+        <a asp-page="./Index"
+           asp-route-searchDurationValue="@Request.Query["searchDurationValue"]"
+           asp-route-searchReleaseYearValue="@Request.Query["searchReleaseYearValue"]"
+           asp-route-pageIndex="@i">@i</a>
     }
 }

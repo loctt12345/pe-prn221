@@ -29,14 +29,22 @@ namespace CartoonFilm_TranThienLoc.Pages.CartoonFilmInformations
             int pageSize = 3;
             if (pageIndex == null) pageIndex = 1;
             var list = _cartoonFilmInformationRepository.GetAll();
-            if (searchDurationValue != null)
+            if (searchDurationValue != null && searchReleaseYearValue != null)
             {
-                list = list.Where(c => c.Duration == searchDurationValue).ToList();
+                list = list.Where(c => (c.Duration == searchDurationValue || c.ReleaseYear == searchReleaseYearValue)).ToList();
             }
-            if (searchReleaseYearValue != null)
+            else
             {
-                list = list.Where(c => c.ReleaseYear == searchReleaseYearValue).ToList();
+                if (searchDurationValue != null)
+                {
+                    list = list.Where(c => c.Duration == searchDurationValue).ToList();
+                }
+                if (searchReleaseYearValue != null)
+                {
+                    list = list.Where(c => c.ReleaseYear == searchReleaseYearValue).ToList();
+                }
             }
+            list = list.OrderByDescending(c => c.CreatedDate).ToList();
             CartoonFilmInformation = list.Skip(((int)pageIndex - 1) * pageSize).Take(pageSize).ToList();
             NumPage = Math.Ceiling((decimal) list.Count / (decimal) pageSize);
         }

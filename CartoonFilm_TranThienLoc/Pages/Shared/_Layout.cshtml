@@ -1,4 +1,9 @@
-﻿<!DOCTYPE html>
+﻿@using Newtonsoft.Json;
+@{
+    var userString = Context.Session.GetString("ACCOUNT");
+}
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -27,6 +32,10 @@
                         </li>
                     </ul>
                 </div>
+                @if (userString != null)
+                {
+                    <a asp-page="/Logout/Index" class="btn btn-danger">Logout</a>
+                }
             </div>
         </nav>
     </header>

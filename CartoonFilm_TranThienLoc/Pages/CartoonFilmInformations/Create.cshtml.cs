@@ -27,17 +27,17 @@ namespace CartoonFilm_TranThienLoc.Pages.CartoonFilmInformations
         public IActionResult OnGet(int? error)
         {
             ViewData["ProducerId"] = new SelectList(_producerRepository.GetAll(), "ProducerId", "ProducerName");
-            if (error != null)
-            {
-                if (error == 1)
-                {
-                    ErrorString = "Id is existed!!!";
-                }
-                if (error == 2)
-                {
-                    ErrorString = "Each word of name must begin with the capital letter";
-                }
-            }
+            //if (error != null)
+            //{
+            //    if (error == 1)
+            //    {
+            //        ErrorString = "Id is existed!!!";
+            //    }
+            //    if (error == 2)
+            //    {
+            //        ErrorString = "Each word of name must begin with the capital letter";
+            //    }
+            //}
             return Page();
         }
 
@@ -49,25 +49,30 @@ namespace CartoonFilm_TranThienLoc.Pages.CartoonFilmInformations
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public IActionResult OnPostAsync()
         {
-            if (!ModelState.IsValid || _cartoonFilmInformationRepository.GetAll() == null || CartoonFilmInformation == null)
-            {
-                return Page();
-            }
-
             var item = _cartoonFilmInformationRepository.Get(CartoonFilmInformation.CartoonFilmId);
             if (item != null)
             {
-                return RedirectToPage("./Create", new { error = 1 });
+                ModelState.AddModelError("CartoonFilmInformation.CartoonFilmId", "Id is existed!!!");
+                //return RedirectToPage("./Create", new { error = 1 });
             }
+
             string name = CartoonFilmInformation.CartoonFilmName;
             string[] words = name.Split(' ');
             for (int i = 0; i < words.Length; ++i)
             {
                 if (!Char.IsLetter(words[i][0]) || Char.IsLower(words[i][0]))
                 {
-                    return RedirectToPage("./Create", new { error = 2 });
+                    ModelState.AddModelError("CartoonFilmInformation.CartoonFilmName", "Each word of name must begin with the capital letter");
+                    //return RedirectToPage("./Create", new { error = 2 });
                 }
             }
+
+            if (!ModelState.IsValid || _cartoonFilmInformationRepository.GetAll() == null || CartoonFilmInformation == null)
+            {
+                return Page();
+            }
+
+            CartoonFilmInformation.CreatedDate = DateTime.Now;
             _cartoonFilmInformationRepository.Create(CartoonFilmInformation);
 
             return RedirectToPage("./Index");
